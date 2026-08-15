@@ -44,14 +44,43 @@ The pipeline intelligently routes data based on what it finds in the video:
 * **Automated Alerting:** If Instagram throws a login wall, the script safely aborts and n8n emails you an alert to log back in.
 
 ---
+## 📂 Project Structure
+
+```text
+instagram-ai-pipeline/
+├── scripts/
+│   ├── audio_cache/        # Temporary storage for extracted audio
+│   └── scrape_reels.js     # Core Puppeteer scraping logic
+├── docker-compose.yml      # Container orchestration
+├── Dockerfile              # Custom n8n image with FFmpeg & Tesseract
+├── setup.bat               # 1-Click Windows installer
+├── setup.sh                # 1-Click Mac/Linux installer
+└── Workflow.json           # Exported n8n pipeline architecture
+```
 
 ## 🚀 1-Click Setup
 
-We have included automated setup scripts to get you running in under 5 minutes.
+We have included automated setup scripts to get you running in under 5 minutes. 
 
-**Prerequisites:** You must have [Docker Desktop](https://www.docker.com/products/docker-desktop/ ) installed and running.
+*Prerequisites:* You must have Docker Desktop installed and running.
 
 ### For Windows:
 Double-click the `setup.bat` file, or run this in your terminal:
 ```cmd
 setup.bat
+```
+
+### For Mac/Linux:
+Run this in your terminal:
+```bash
+chmod +x setup.sh && ./setup.sh
+```
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
+If you have a great idea to improve this pipeline, please fork the repo and create a pull request.
+
+## 📝 License
+
+This project is MIT licensed.
