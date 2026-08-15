@@ -1,0 +1,587 @@
+{
+  "name": "Instagram Reels AI Pipeline",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "033f46c5-0992-4bf8-84de-c4d915eababc",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1RPipGV_UQOzGNZYWd56Pjc8B7Y6hrj68f2hlqQwDBJQ",
+          "mode": "list",
+          "cachedResultName": "Instagram Reels Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPipGV_UQOzGNZYWd56Pjc8B7Y6hrj68f2hlqQwDBJQ/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RPipGV_UQOzGNZYWd56Pjc8B7Y6hrj68f2hlqQwDBJQ/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Reel URL": "={{ $json['Reel URL'] }}",
+            "Date Saved": "={{ $json['Date Saved'] }}",
+            "Caption": "={{ $json['Caption'] }}",
+            "Caption status": "={{ $json[\"Caption Status\"] }}",
+            "AI Summary": "={{ $json[\"AI Summary\"] || '' }}"
+          },
+          "matchingColumns": [
+            "Reel URL"
+          ],
+          "schema": [
+            {
+              "id": "Reel URL",
+              "displayName": "Reel URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Date Saved",
+              "displayName": "Date Saved",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Caption",
+              "displayName": "Caption",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Caption status",
+              "displayName": "Caption status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "AI Summary",
+              "displayName": "AI Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1520,
+        0
+      ],
+      "id": "36895c50-5f1f-4874-b321-0276c9fdada4",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "eBYZQ7TjVtnq5oqL",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $input.first().json.stdout;\nconst jsonStart = raw.indexOf('{\"Reels\"');\nif (jsonStart === -1) {\n    return [{ json: { error: 'No JSON found in output' } }];\n}\nconst cleanJson = raw.substring(jsonStart);\nconst parsed = JSON.parse(cleanJson);\nreturn parsed.Reels.map(reel => ({\n    json: {\n        'Reel URL': reel.url,\n        'Caption': reel.caption || '',\n        'Date Saved': reel.date || new Date().toISOString().split('T')[0],\n        'Caption Status': reel.status,\n        'ocrText': reel.ocrText || '',\n        'audioPath': reel.audioPath || ''\n    }\n}));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "8fb004bb-6303-470e-b4d2-880afc3ed19c",
+      "name": "Code in JavaScript",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23,
+              "triggerAtMinute": 30
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        144
+      ],
+      "id": "84f7a12a-eeaf-41f8-939e-0f0ab8ee6d04",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "node /scripts/scrape_reels.js"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "17597aaf-a5ae-47a9-81c8-0784fe745ba8",
+      "name": "Execute Command",
+      "executeOnce": false
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.audioPath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        784,
+        112
+      ],
+      "id": "3d29892a-3ac9-47d2-bcfa-c9ce60048857",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        112
+      ],
+      "id": "25dd7d4f-51f4-417d-816f-09f145840c68",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.ocrText }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "6e556a57-d06c-412b-9b8a-68541a069bae"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ocr"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e8442581-8584-4766-9abc-58f269c3349f",
+                    "leftValue": "={{ $json.audioPath }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "audio"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -16
+      ],
+      "id": "3b01b307-c401-4246-b1e3-3a0e07342f05",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [\n      { \"text\": \"Summarize what this video is likely about, in 3-5 concise bullet points, based ONLY on this on-screen text extracted from the video: {{ $json.ocrText }}. Do not guess at anything beyond what this text tells you.\" }\n    ]\n  }]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        880,
+        -112
+      ],
+      "id": "85705fd3-ee30-47ac-af20-53ade1faa272",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "zszulaNcNgVdZArw",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "47162fa6-8f3f-405d-93c8-c1eeee40baea",
+              "name": "AI Summary",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
+              "type": "string"
+            },
+            {
+              "id": "8de6b758-f81f-47c1-bfb5-02477021072d",
+              "name": "Reel URL",
+              "value": "={{ $('Switch').item.json['Reel URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "05355496-29bf-4aba-afb0-1f780a21ad45",
+              "name": "Date Saved",
+              "value": "={{ $('Switch').item.json['Date Saved'] }}",
+              "type": "string"
+            },
+            {
+              "id": "7d8335a6-294e-42f7-a6c9-20b96b3e991b",
+              "name": "Caption",
+              "value": "={{ $('Switch').item.json.Caption }}",
+              "type": "string"
+            },
+            {
+              "id": "c52bdb38-ef57-464b-804b-4a25b75fab45",
+              "name": "Caption Status",
+              "value": "={{ $('Switch').item.json['Caption Status'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        -112
+      ],
+      "id": "1fb1af80-8778-4a6c-add0-afe9a639bbb0",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"contents\": [{\n    \"parts\": [\n      { \"text\": \"Summarize what this video is likely about, in 3-5 concise bullet points. You are given ONLY: (1) the video's audio track, and (2) any text detected on-screen via OCR (may be empty). You do NOT have access to the video's visuals — do not describe or guess what is shown visually. If the audio contains no speech (music only) and no on-screen text is provided, say so explicitly rather than inventing content. On-screen text: {{ $('Code in JavaScript').item.json.ocrText }}\" },\n      { \"inline_data\": { \"mime_type\": \"audio/mp3\", \"data\": \"{{ $json.data }}\" } }\n    ]\n  }]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1136,
+        112
+      ],
+      "id": "103b0cc0-af0c-496e-bc9d-543be7090c43",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "zszulaNcNgVdZArw",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0252f560-eb06-46af-9d14-05c05f1fbde4",
+              "name": "AI Summary",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
+              "type": "string"
+            },
+            {
+              "id": "6eadebd3-0563-4d20-9e56-2c6ee6810539",
+              "name": "Reel URL",
+              "value": "={{ $('Code in JavaScript').item.json['Reel URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "8d58973f-353a-4c92-a401-d23453e5c858",
+              "name": "Date Saved",
+              "value": "={{ $('Code in JavaScript').item.json['Date Saved'] }}",
+              "type": "string"
+            },
+            {
+              "id": "6de736e1-5d45-448e-af34-9fbf20ccfe6f",
+              "name": "Caption",
+              "value": "={{ $('Code in JavaScript').item.json.Caption }}",
+              "type": "string"
+            },
+            {
+              "id": "acac826d-1643-45d9-8eaa-63749c438e9e",
+              "name": "Caption Status",
+              "value": "={{ $('Code in JavaScript').item.json['Caption Status'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1312,
+        112
+      ],
+      "id": "61377088-be23-490e-8bf7-1ed8971fbed0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "command": "rm -f /scripts/audio_cache/*\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        0
+      ],
+      "id": "ae482335-f3af-49be-ba09-82d56f05bc45",
+      "name": "Clean Audio Cache"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Clean Audio Cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true
+  },
+  "versionId": "c66b0900-5d38-4d55-afe6-7a4031a4c749",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "5aca9215ca962a835bb77dcd2b785b03ac5704deeaa68e68cdc8bc521b4da0e7"
+  },
+  "nodeGroups": [],
+  "id": "EUitzAO9JpWLTorM",
+  "tags": []
+}

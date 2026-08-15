@@ -1,0 +1,9 @@
+# Ignore scraped progress and cache
+scraped_progress.jsonl
+audio_cache/
+*.mp3
+*.webm
+*.mp4
+
+# Ignore OS files
+.DS_Store
