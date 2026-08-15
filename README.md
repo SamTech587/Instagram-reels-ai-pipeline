@@ -1,76 +1,77 @@
 <p align="center">
   <img
-    src="https://capsule-render.vercel.app/api?type=waving&color=0:7C3AED,48:DB2777,100:F97316&height=250&section=header&text=Instagram%20Reels%20AI%20Pipeline&fontSize=42&fontColor=FFFFFF&animation=fadeIn&fontAlignY=38&desc=Turn%20saved%20Reels%20into%20organised%2C%20searchable%20AI%20insights&descAlignY=58&descSize=17"
-    alt="Instagram Reels AI Pipeline"
+    src="https://capsule-render.vercel.app/api?type=waving&color=0:7C3AED,45:DB2777,100:F97316&height=260&section=header&text=Instagram%20Reels%20AI%20Pipeline&fontSize=42&fontColor=FFFFFF&animation=fadeIn&fontAlignY=38&desc=Save%20a%20Reel.%20Keep%20the%20idea.&descAlignY=58&descSize=19"
+    alt="Instagram Reels AI Pipeline — Save a Reel. Keep the idea."
     width="100%"
   />
 </p>
 
+<h1 align="center">🎬 Instagram Reels AI Pipeline</h1>
+
 <p align="center">
-  <a href="https://n8n.io/"><img src="https://img.shields.io/badge/Orchestration-n8n-FF6D5A?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n" /></a>
-  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/Runtime-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" /></a>
-  <a href="https://pptr.dev/"><img src="https://img.shields.io/badge/Automation-Puppeteer-40B5A4?style=for-the-badge&logo=puppeteer&logoColor=white" alt="Puppeteer" /></a>
-  <a href="https://ai.google.dev/"><img src="https://img.shields.io/badge/Intelligence-Google%20Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white" alt="Google Gemini" /></a>
+  <strong>📥 Capture &nbsp;•&nbsp; 🧠 Understand &nbsp;•&nbsp; 🗂️ Organise</strong>
+  <br />
+  Turn selected saved Reels into a searchable Google Sheets knowledge library.
 </p>
 
 <p align="center">
-  <strong>A containerised workflow that converts saved Instagram Reels into structured, AI-generated notes in Google Sheets.</strong>
+  <a href="https://n8n.io/"><img src="https://img.shields.io/badge/⚙️_Orchestration-n8n-FF6D5A?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n" /></a>
+  <a href="https://www.docker.com/"><img src="https://img.shields.io/badge/📦_Runtime-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" /></a>
+  <a href="https://pptr.dev/"><img src="https://img.shields.io/badge/🤖_Browser-Puppeteer-40B5A4?style=for-the-badge&logo=puppeteer&logoColor=white" alt="Puppeteer" /></a>
+  <a href="https://ai.google.dev/"><img src="https://img.shields.io/badge/✨_AI-Google%20Gemini-8E75B2?style=for-the-badge&logo=google&logoColor=white" alt="Google Gemini" /></a>
 </p>
 
 <p align="center">
-  <a href="#overview">Overview</a>
+  <img src="https://img.shields.io/badge/🎯_Purpose-Reels%20to%20actionable%20insights-7C3AED?style=flat-square" alt="Purpose: Reels to actionable insights" />
+  <img src="https://img.shields.io/badge/🛠️_Setup-Docker%20powered-0EA5E9?style=flat-square" alt="Docker powered setup" />
+  <img src="https://img.shields.io/badge/📊_Output-Google%20Sheets-16A34A?style=flat-square" alt="Google Sheets output" />
+</p>
+
+<p align="center">
+  <a href="#-why-it-exists">Why it exists</a>
   ·
-  <a href="#workflow">Workflow</a>
+  <a href="#-the-pipeline">The pipeline</a>
   ·
-  <a href="#quick-start">Quick start</a>
+  <a href="#-quick-start">Quick start</a>
   ·
-  <a href="#project-structure">Project structure</a>
+  <a href="#-project-structure">Project structure</a>
   ·
-  <a href="#contributing">Contributing</a>
+  <a href="#-contributing">Contributing</a>
 </p>
 
 ---
 
-## Overview
+## ✨ Why It Exists
 
-**Instagram Reels AI Pipeline** is a practical knowledge-capture system for people who save great ideas but do not want those ideas to disappear into an endless feed. It processes selected saved Reels, identifies the most useful content signal—either on-screen copy or spoken audio—and sends that material to Google Gemini for a concise summary. The final result is appended to a Google Sheet, producing a personal, searchable library of ideas.
+Instagram Reels can be an excellent source of tutorials, recipes, ideas, prompts, and creative references. The problem is that useful content can quickly disappear into a long saved-items list. **Instagram Reels AI Pipeline** turns selected saved content into clear, reusable notes—without the tedious copying and pasting.
 
-> From a saved Reel to a structured insight—without manual note-taking.
+> **Save the inspiration. Keep the insight.**
+
+| 📥 You save | 🧠 The pipeline does the work | 🗂️ You keep |
+| :-- | :-- | :-- |
+| A useful Instagram Reel | Captures the strongest available content signal, then creates an AI summary | A structured, searchable record in Google Sheets |
+
+---
+
+## 🗺️ The Pipeline
 
 <p align="center">
-  <img src="hero-image.png" alt="Instagram Reels AI Pipeline architecture preview" width="100%" />
+  <img src="hero-image.png" alt="n8n workflow for the Instagram Reels AI Pipeline" width="100%" />
   <br />
-  <sub>Replace <code>hero-image.png</code> with a screenshot of your n8n workflow for the strongest repository preview.</sub>
+  <sub><strong>Live workflow architecture:</strong> n8n coordinates capture, extraction, analysis, storage, and cleanup.</sub>
 </p>
-
-| Input | Intelligent processing | Output |
-| :-- | :-- | :-- |
-| Saved Instagram Reels | Browser capture, OCR or audio extraction, and AI summarisation | A clean Google Sheets knowledge base |
-
-## Why This Project
-
-Saved Reels often contain recipes, tutorials, prompts, product ideas, creative references, and short lessons. Finding a specific insight again can be difficult. This pipeline makes saved content easier to revisit by turning it into structured, useful notes instead of leaving it buried in a feed.
-
-| Benefit | What it means in practice |
-| :-- | :-- |
-| **Less manual work** | The pipeline handles capture, extraction, analysis, and storage as a connected workflow. |
-| **Adaptive extraction** | It uses OCR when meaningful on-screen text is available and audio capture when speech is the stronger signal. |
-| **Searchable knowledge** | Each processed Reel is recorded with its URL, date, caption, and AI-generated summary. |
-| **Self-contained deployment** | Docker packages the runtime environment so the workflow is easier to set up and reproduce. |
-
-## Workflow
 
 ```mermaid
 flowchart LR
-    A[Selected saved Reels] --> B[n8n workflow]
-    B --> C[Puppeteer browser session]
-    C --> D{Primary content signal}
-    D -->|On-screen text| E[Tesseract OCR]
-    D -->|Spoken audio| F[In-browser MediaRecorder]
-    E --> G[Google Gemini analysis]
+    A[📱 Selected saved Reels] --> B[⚙️ n8n workflow]
+    B --> C[🤖 Puppeteer browser session]
+    C --> D{What is available?}
+    D -->|On-screen copy| E[🔎 Tesseract OCR]
+    D -->|Spoken content| F[🎙️ Browser audio capture]
+    E --> G[✨ Gemini analysis]
     F --> G
-    G --> H[(Google Sheets)]
-    F --> I[Temporary-file cleanup]
+    G --> H[(📊 Google Sheets)]
+    F --> I[🧹 Temporary-file cleanup]
 
     classDef source fill:#E1306C,stroke:#ffffff,color:#ffffff
     classDef process fill:#7C3AED,stroke:#ffffff,color:#ffffff
@@ -80,109 +81,122 @@ flowchart LR
     class H output
 ```
 
-### The pipeline, step by step
+### 🔄 From Reel to Insight
 
-| Stage | Component | What happens |
-| :-- | :-- | :-- |
-| **01 — Capture** | Puppeteer | Opens the relevant Reels in a controlled browser session and collects the available source material. |
-| **02 — Extract** | Tesseract OCR or MediaRecorder | Detects and reads on-screen copy; when text is not meaningful, it records the browser’s audio output for analysis. |
-| **03 — Understand** | Google Gemini | Converts the extracted content into a clear, useful summary. |
-| **04 — Organise** | Google Sheets | Adds the Reel URL, date, caption, and generated insight to a structured spreadsheet. |
-| **05 — Clean up** | File management | Removes temporary audio artefacts after processing to keep storage tidy. |
+| Step | What happens | Why it matters |
+| :--: | :-- | :-- |
+| **① 📱 Capture** | Puppeteer opens the selected Reel in a controlled browser session. | The workflow starts from the content you have chosen to save. |
+| **② 🔎 Extract** | It reads meaningful on-screen text; when audio is the stronger signal, it captures the browser audio instead. | The pipeline adapts to the kind of information in the Reel. |
+| **③ ✨ Understand** | Google Gemini turns the extracted material into a concise summary. | You get the key idea without replaying the video. |
+| **④ 📊 Organise** | The Reel URL, date, caption, and AI insight are stored in Google Sheets. | Your saved content becomes easy to search and review. |
+| **⑤ 🧹 Clean up** | Temporary audio files are removed after processing. | The workspace stays tidy and lightweight. |
 
-## Engineering Highlights
+---
 
-| Capability | Design approach |
+## ⚡ What Makes It Different
+
+| Feature | The engineering behind it |
 | :-- | :-- |
-| **Audio-first fallback** | Rather than relying on fragmented video downloads, the workflow captures audio directly inside the browser when audio is needed. |
-| **Focused OCR** | Image regions are trimmed before OCR so interface overlays do not overwhelm the extracted text. |
-| **Deliberate pacing** | Processing is intentionally limited to a small batch of Reels per run, helping keep each run predictable and easy to review. |
-| **Session-awareness** | If a sign-in screen interrupts the workflow, processing stops safely and an alert can be sent for manual review. |
-| **Reproducible runtime** | Docker combines n8n, FFmpeg, Tesseract, and the supporting dependencies in one portable environment. |
+| **🎙️ Audio-first fallback** | When video downloads are fragmented or unreliable, the pipeline records audio directly inside the browser. |
+| **🎯 Focused OCR** | UI-heavy regions are trimmed before OCR so irrelevant interface text does not overwhelm the result. |
+| **⏱️ Deliberate pacing** | Each run handles a small batch of Reels, which keeps processing predictable and easy to inspect. |
+| **🛎️ Session-aware handling** | If a sign-in screen interrupts the workflow, processing stops safely and can trigger an alert for manual review. |
+| **📦 Dockerised runtime** | Docker bundles n8n, FFmpeg, Tesseract, and supporting dependencies into a reproducible environment. |
 
-## Quick Start
+<details>
+<summary><strong>💡 What can I save with this?</strong></summary>
 
-### Prerequisites
+You can use the pipeline to build a library of useful short-form content such as learning notes, recipes, productivity ideas, creator references, product inspiration, or prompts worth revisiting.
 
-Before you begin, install and start [Docker Desktop](https://www.docker.com/products/docker-desktop/). You will also need access to the services used by the workflow, including an Instagram session, Google Gemini, and Google Sheets.
+</details>
 
-### Windows
+---
 
-Run the included installer script from the project directory:
+## 🚀 Quick Start
 
-```cmd
-setup.bat
-```
+### ✅ Before You Begin
 
-### macOS and Linux
+Install and start [Docker Desktop](https://www.docker.com/products/docker-desktop/). You will also need the service connections used by the workflow, including access to the relevant Instagram session, Google Gemini, and Google Sheets.
 
-Make the installer executable, then run it:
+| Platform | Run this |
+| :-- | :-- |
+| **🪟 Windows** | `setup.bat` |
+| **🍎 macOS / 🐧 Linux** | `chmod +x setup.sh && ./setup.sh` |
 
-```bash
-chmod +x setup.sh && ./setup.sh
-```
+### 🧩 Configure the Workflow
 
-### Configure the workflow
+1. Import `Workflow.json` into your n8n instance.
+2. Configure the required service credentials and choose the destination Google Sheet.
+3. Run a small test batch first.
+4. Confirm that the resulting rows include the Reel details and a useful AI summary.
 
-After the local environment is running, import `Workflow.json` into n8n. Then configure the required service credentials and destination Google Sheet within your n8n instance. Once set up, run a small test batch first and confirm that the resulting rows contain the expected Reel details and summaries.
+> **🔐 Responsible use:** Process only content and accounts that you are authorised to access. Use the project in line with applicable platform terms, privacy expectations, and local law.
 
-> **Responsible use:** Process only content and accounts that you are authorised to access. Keep your use of this project aligned with applicable platform terms, privacy expectations, and local law.
+---
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 Instagram-reels-ai-pipeline/
 ├── scripts/
-│   ├── audio_cache/        # Temporary storage for captured audio
-│   └── scrape_reels.js     # Core Puppeteer browser logic
-├── docker-compose.yml      # Local container orchestration
-├── Dockerfile              # Custom n8n image with FFmpeg and Tesseract
-├── setup.bat               # Windows setup script
-├── setup.sh                # macOS/Linux setup script
-├── Workflow.json           # Exported n8n workflow
-└── README.md               # Project documentation
+│   ├── audio_cache/        # 🎙️ Temporary audio storage
+│   └── scrape_reels.js     # 🤖 Core Puppeteer browser logic
+├── docker-compose.yml      # 📦 Local container orchestration
+├── Dockerfile              # 🛠️ Custom n8n image with FFmpeg + Tesseract
+├── setup.bat               # 🪟 Windows setup script
+├── setup.sh                # 🐧 macOS/Linux setup script
+├── Workflow.json           # ⚙️ Exported n8n workflow
+├── hero-image.png          # 🗺️ n8n workflow screenshot
+└── README.md               # 📖 Project documentation
 ```
-
-## Built With
-
-| Technology | Role in the pipeline |
-| :-- | :-- |
-| [n8n](https://n8n.io/) | Coordinates workflow steps, conditions, notifications, and integrations. |
-| [Docker](https://www.docker.com/) | Provides a consistent local runtime for the pipeline. |
-| [Puppeteer](https://pptr.dev/) | Powers the automated browser session and media capture workflow. |
-| [Tesseract OCR](https://tesseract-ocr.github.io/) | Extracts readable text from Reel frames. |
-| [Google Gemini](https://ai.google.dev/) | Produces concise summaries from extracted text or audio. |
-| [Google Sheets](https://www.google.com/sheets/about/) | Stores the processed Reels as a simple, searchable knowledge base. |
-
-## Contributing
-
-Contributions, refinements, and new ideas are welcome. If you want to improve the workflow, please open an issue first to discuss the change, then submit a focused pull request.
-
-```bash
-# 1. Fork the repository on GitHub
-# 2. Clone your fork
-# 3. Create a dedicated branch
-git checkout -b feature/your-improvement
-
-# 4. Make and test your changes
-# 5. Commit with a clear message
-git commit -m "feat: describe your improvement"
-
-# 6. Push and open a pull request
-git push origin feature/your-improvement
-```
-
-## License
-
-Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
 
+## 🧰 Built With
+
+| Tool | Role |
+| :-- | :-- |
+| [n8n](https://n8n.io/) | ⚙️ Workflow automation and service integration. |
+| [Docker](https://www.docker.com/) | 📦 Consistent local runtime and dependency packaging. |
+| [Puppeteer](https://pptr.dev/) | 🤖 Automated browser session and media capture. |
+| [Tesseract OCR](https://tesseract-ocr.github.io/) | 🔎 On-screen text extraction. |
+| [Google Gemini](https://ai.google.dev/) | ✨ AI-generated content summaries. |
+| [Google Sheets](https://www.google.com/sheets/about/) | 📊 A simple, searchable destination for your knowledge base. |
+
+---
+
+## 🤝 Contributing
+
+Ideas, fixes, and improvements are welcome. Please open an issue to discuss substantial changes, then submit a focused pull request.
+
+```bash
+# Create a focused branch
+git checkout -b feature/your-improvement
+
+# Commit your change
+git commit -m "feat: describe your improvement"
+
+# Push and open a pull request
+git push origin feature/your-improvement
+```
+
+---
+
+## 📄 License
+
+This project is distributed under the **MIT License**. See `LICENSE` for more information.
+
 <p align="center">
-  <strong>Build a library from the ideas you save.</strong><br />
-  <sub>If this project helps you, consider giving the repository a star.</sub>
+  <strong>🎬 Save a Reel. ✨ Keep the idea. 🚀 Build your library.</strong>
+  <br />
+  <sub>If this project is useful, please consider giving the repository a star.</sub>
 </p>
 
 <p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:F97316,52:DB2777,100:7C3AED&height=120&section=footer" alt="Colourful footer" width="100%" />
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:F97316,52:DB2777,100:7C3AED&height=120&section=footer" alt="Colourful project footer" width="100%" />
 </p>
+
+## References
+
+[1]: https://docs.github.com/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax "GitHub Docs — Basic writing and formatting syntax"
+[2]: https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/quickstart-for-writing-on-github "GitHub Docs — Quickstart for writing on GitHub"
